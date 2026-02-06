@@ -303,13 +303,14 @@ def getAMIID() {
 
 - **Purpose**: Creates the EC2 instance and bootstraps it with Jenkins agent configuration
 - **User Data Script** (`agent_config.sh`):
-  1. Creates `/root/.ssh` directory with correct permissions
-  2. Injects SSH private key from `github_deploy_key` variable
-  3. Adds GitHub to SSH `known_hosts` to avoid interactive prompts
-  4. Installs Ansible
-  5. Executes `ansible-pull` to clone the repository via SSH
-  6. Runs Ansible playbook `jenkins-agent.yaml` to configure the agent
-  7. Installs tools in order: Packages, Kubectl, AWS, Terraform, Docker and Jenkins config.
+  
+- Creates `/root/.ssh` directory with correct permissions
+- Injects SSH private key from `github_deploy_key` variable
+- Adds GitHub to SSH `known_hosts` to avoid interactive prompts
+- Installs Ansible
+- Executes `ansible-pull` to clone the repository via SSH
+- Runs Ansible playbook `jenkins-agent.yaml` to configure the agent
+- Installs tools in order: Packages, Kubectl, AWS, Terraform, Docker and Jenkins config.
 
 - **Instance Configuration**:
   - 100GB EBS volume (gp3)
