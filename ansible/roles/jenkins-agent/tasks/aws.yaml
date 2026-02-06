@@ -1,0 +1,44 @@
+- name: Download AWS CLI v2
+  unarchive:
+    src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+    dest: /tmp
+    remote_src: yes
+    creates: /tmp/aws
+
+- name: Install AWS CLI v2
+  command: /tmp/aws/install --update --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli
+  become: true
+  args:
+    creates: /usr/local/bin/aws
+
+- name: Clean up AWS CLI v2 installation files
+  file:
+    path: /tmp/aws
+    state: absent
+
+- name: Ensure .kube directory
+  file:
+    path: "/home/{{ agent_user }}/.kube"
+    state: directory
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0700'
+
+- name: Configure Kubeconfig for EKS Cluster
+  become_user: "{{ agent_user }}"
+  command: >
+    aws eks update-kubeconfig --name {{ eks_cluster_name }} --region {{ aws_region }} --kubeconfig /home/{{ agent_user }}/.kube/config
+  args:
+    creates: "/home/{{ agent_user }}/.kube/config"
+
+- name: Install yq
+  get_url:
+    url: https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+    dest: /usr/local/bin/yq
+    mode: '0755'
+
+- name: Rename kubernetes Context
+  become_user: "{{ agent_user }}"
+  command: >
+    yq '.contexts[] |= select(.name == "arn:aws:eks:{{ aws_region }}:{{ aws_id }}:cluster/{{ environment }}") 
+    .name = "{{ environment }}"' -i /home/{{ agent_user }}/.kube/config

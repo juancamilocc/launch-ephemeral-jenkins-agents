@@ -1,21 +1,21 @@
 # Variables backend and provider
 variable "aws_region" {
 
-    description = "AWS region"
-    type        = string
-    default     = "<YOUR_AWS_REGION>"
+  description = "AWS region"
+  type        = string
+  default     = "<YOUR_AWS_REGION>"
 }
 
 variable "aws_profile" {
 
-    description = "AWS profile"
-    type        = string
-    default     = "default"
+  description = "AWS profile"
+  type        = string
+  default     = "default"
 }
 
 # Variables EC2 module
 variable "ami_id" {
-
+  
   description = "ID AMI for EC2 instance"
   type        = string
 }
@@ -63,51 +63,51 @@ variable "key_name" {
 
 variable "remote_fs_root" {
 
-    description = "Jenkins Agent path where it will save agent file configuration"
-    type        = string
-    default     = "/var/lib/jenkins_agent"
+  description = "Jenkins Agent path where it will save agent file configuration"
+  type        = string
+  default     = "/var/lib/jenkins_agent"
 }
 
 variable "java_version" {
 
-    description = "Java Version"
-    type        = string
-    default     = "11"
-}
-
-variable "kubectl_version" {
-
-    description = "Kubectl version"
-    type        = string
-    default     = "v1.33.1"
+  description = "Java Version"
+  type        = string
+  default     = "11"
 }
 
 variable "iam_instance_profile_name" {
 
-    description = "Instance profile name of IAM role"
-    type        = string
-    default     = "jenkins-agent-role"
+  description = "Instance profile name of IAM role"
+  type        = string
+  default     = "jenkins-agent-role"
 }
 
 variable "eks_cluster_name" {
 
-    description = "EKS cluster name"
-    type        = string
-    default     = "<NAME_EKS_CLUSTER>"
+  description = "EKS cluster name"
+  type        = string
+  default     = "<NAME_EKS_CLUSTER>"
 }
 
 variable "aws_id" {
 
-    description = "AWS id"
-    type        = string
-    default     = "<YOUR_AWS_ID_ACCOUNT>"
+  description = "AWS id"
+  type        = string
+  default     = "<YOUR_AWS_ID_ACCOUNT>"
 }
 
 variable "environment" {
 
-    description = "Environment context"
-    type        = string
-    default     = "testing"
+  description = "Environment context"
+  type        = string
+  default     = "testing"
+}
+
+variable "github_deploy_key" { # This must be a SSH key passed in the pipeline
+    
+  description = "GitHub deploy key for private repository access"
+  type        = string
+  sensitive   = true
 }
 
 # Variables sg module

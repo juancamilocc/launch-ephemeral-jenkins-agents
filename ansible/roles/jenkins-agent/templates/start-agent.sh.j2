@@ -1,0 +1,7 @@
+#!/bin/bash
+
+java -jar "{{ remote_fs_root }}/agent.jar" \
+  -url "{{ jenkins_controller_url }}/" \
+  -secret "{{ jenkins_agent_secret }}" \
+  -name "{{ jenkins_agent_name }}" \
+  -workDir "{{ remote_fs_root }}"

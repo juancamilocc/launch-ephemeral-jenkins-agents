@@ -59,12 +59,6 @@ variable "sg_id" {
     type        = string
 }
 
-variable "kubectl_version" {
-
-    description = "Kubectl version"
-    type        = string
-}
-
 variable "iam_instance_profile_name" {
 
     description = "Instance profile name of IAM role"
@@ -93,4 +87,11 @@ variable "environment" {
 
     description = "Environment context"
     type        = string
+}
+
+variable "github_deploy_key" { # This must be a SSH key passed in the pipeline
+
+    description = "GitHub deploy key for private repository access"
+    type        = string
+    sensitive   = true
 }

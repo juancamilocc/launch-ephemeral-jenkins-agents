@@ -1,0 +1,27 @@
+- name: Ensure .docker directory
+  file:
+    path: "/home/{{ agent_user }}/.docker"
+    state: directory
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0700'
+
+- name: Configure Docker to use ECR credential helper
+  template:
+    src: templates/config.json.j2
+    dest: "/home/{{ agent_user }}/.docker/config.json"
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0600' 
+
+- name: Enable and start docker
+  systemd:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Add user to docker group
+  user:
+    name: "{{ agent_user }}"
+    groups: docker
+    append: true

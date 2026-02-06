@@ -1,0 +1,27 @@
+- name: Update APT Cache
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install Required Packages
+  apt:
+    name:
+      - openjdk-${java_version}-jre-headless 
+      - default-jdk 
+      - maven 
+      - python3-pip
+      - amazon-ecr-credential-helper 
+      - docker.io 
+      - git-all
+      - jq
+      - curl
+      - unzip
+      - apt-transport-https
+      - ca-certificates
+      - gnupg 
+      - software-properties-common
+    state: present 
+
+- name: Update CA certificates
+  command: update-ca-certificates
+  changed_when: false

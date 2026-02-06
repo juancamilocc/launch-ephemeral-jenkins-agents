@@ -1,0 +1,18 @@
+[Unit]
+Description=Jenkins Agent
+After=network.target
+
+[Service]
+ExecStart={{ remote_fs_root }}/start_agent.sh
+User=ubuntu 
+Group=ubuntu
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+WorkingDirectory={{ remote_fs_root }}
+
+Environment="MAVEN_OPTS=-Djdk.tls.client.protocols=TLSv1.2 -Djdk.tls.server.enableSessionTicketExtension=false -Djdk.tls.client.enableSessionTicketExtension=false"
+
+[Install]
+WantedBy=multi-user.target

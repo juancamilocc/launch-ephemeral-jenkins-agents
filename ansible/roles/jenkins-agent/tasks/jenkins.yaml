@@ -1,0 +1,38 @@
+- name: Create Jenkins Agent directory
+  file:
+    path: "{{ remote_fs_root }}"
+    state: directory
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0755'
+
+- name: Download Jenkins Agent jar
+  get_url:
+    url: "{{ jenkins_controller_url }}/jnlpJars/agent.jar"
+    dest: "{{ remote_fs_root }}/agent.jar"
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0755'
+
+- name: Create Jenkins Agent launch script
+  template:
+    src: templates/start-agent.sh.j2
+    dest: "{{ remote_fs_root }}/start-agent.sh"
+    owner: "{{ agent_user }}"
+    group: "{{ agent_user }}"
+    mode: '0755'
+
+- name: Create Jenkins Agent service
+  template:
+    src: templates/jenkins-agent.service.j2
+    dest: /etc/systemd/system/jenkins-agent.service
+    mode: '0644'
+  become: true
+  notify: Restart jenkins agent
+
+- name: Ensure Jenkins agent service is enabled and started
+  systemd:
+    name: jenkins-agent
+    enabled: true
+    state: started
+  become: true

@@ -24,15 +24,15 @@ resource "aws_instance" "executor_agent" {
     vpc_security_group_ids  = [var.sg_id]
     key_name                = var.key_name
 
-    # Pass variables for setting up instance as an agent and install requirements
+    # Pass variables for setting up instance as an agent and run Ansible Playbook
     user_data = base64encode(templatefile("${path.module}/agent_config.sh", {
         
+        github_deploy_key           = var.github_deploy_key
         jenkins_controller_url      = var.jenkins_controller_url
         jenkins_agent_name          = var.instance_name
         jenkins_agent_secret        = var.jenkins_agent_secret
         remote_fs_root              = var.remote_fs_root
         java_version                = var.java_version
-        kubectl_version             = var.kubectl_version
         eks_cluster_name            = var.eks_cluster_name
         aws_region                  = var.aws_region
         aws_id                      = var.aws_id

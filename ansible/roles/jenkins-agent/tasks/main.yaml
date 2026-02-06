@@ -1,0 +1,17 @@
+- import_tasks: packages.yaml
+  tags: packages
+
+- import_tasks: kubectl.yaml
+  tags: eks
+
+- import_tasks: aws.yaml
+  tags: eks
+
+- import_tasks: terraform.yaml
+  tags: terraform
+
+- import_tasks: docker.yaml
+  tags: docker
+
+- import_tasks: jenkins.yaml
+  tags: jenkins

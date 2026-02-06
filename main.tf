@@ -25,11 +25,11 @@ module "ec2" {
     key_name                    = var.key_name
     remote_fs_root              = var.remote_fs_root
     java_version                = var.java_version
-    kubectl_version             = var.kubectl_version
     iam_instance_profile_name   = var.iam_instance_profile_name
     eks_cluster_name            = var.eks_cluster_name
     aws_region                  = var.aws_region
     aws_id                      = var.aws_id
     environment                 = var.environment
+    github_deploy_key           = var.github_deploy_key
     sg_id                       = module.sg.sg_id
 }
